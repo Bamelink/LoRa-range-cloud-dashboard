@@ -22,7 +22,26 @@ services:
       - mqtt:/mosquitto/log
     ports:
       - "1883:1883"
-      - "9001:9001" 
+      - "9001:9001"
+
+  mysql:
+    container_name: teamprojekt_mysql
+    image: mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=j6VfJuThHtTFgdYYZgUs
+      - MYSQL_DATABASE=GPS
+      - MYSQL_USER=grafana
+      - MYSQL_PASSWORD=kRXb4cJBU8WTgDGvTXDp
+    volumes:
+      - mysql:/var/lib/mysql
+      
+  adminer:
+    image: adminer
+    container_name: teamprojekt_mysql_adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
   
   grafana:
     image: grafana/grafana:latest
@@ -36,4 +55,5 @@ services:
 volumes:
   nodered:
   mqtt:
+  mysql:
   grafana:
