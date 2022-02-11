@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+      
+  nodered:
+    container_name: "NodeRed"
+    image: nodered/node-red
+    restart: unless-stopped
+    volumes:
+      - nodered:/data
+    ports:
+      - "1880:1880"
+  
+  mqtt:
+    image: eclipse-mosquitto
+    container_name: mqtt
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - mqtt:/mosquitto/config
+      - mqtt:/mosquitto/data
+      - mqtt:/mosquitto/log
+    ports:
+      - "1883:1883"
+      - "9001:9001" 
+  
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - grafana:/var/lib/grafana
+    ports:
+      - "3000:3000"
+      
+volumes:
+  nodered:
+  mqtt:
+  grafana:
