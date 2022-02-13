@@ -3,9 +3,11 @@ version: "3"
 services:
       
   nodered:
-    container_name: "NodeRed"
-    image: nodered/node-red
+    container_name: teamprojekt_nodered
+    build: ./nodeRed
     restart: unless-stopped
+    environment:
+      - TZ="Europe/Berlin"
     volumes:
       - nodered:/data
     ports:
@@ -13,7 +15,7 @@ services:
   
   mqtt:
     image: eclipse-mosquitto
-    container_name: mqtt
+    container_name: teamprojekt_mqtt
     restart: unless-stopped
     network_mode: host
     volumes:
@@ -26,13 +28,10 @@ services:
 
   mysql:
     container_name: teamprojekt_mysql
-    image: mysql
+    build: ./database
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=j6VfJuThHtTFgdYYZgUs
-      - MYSQL_DATABASE=GPS
-      - MYSQL_USER=grafana
-      - MYSQL_PASSWORD=kRXb4cJBU8WTgDGvTXDp
+      - TZ="Europe/Berlin"
     volumes:
       - mysql:/var/lib/mysql
       
@@ -49,6 +48,7 @@ services:
     restart: unless-stopped
     volumes:
       - grafana:/var/lib/grafana
+      - ./provisioning:/etc/grafana/provisioning
     ports:
       - "3000:3000"
       

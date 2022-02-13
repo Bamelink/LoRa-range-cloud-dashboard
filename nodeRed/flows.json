@@ -1,0 +1,216 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Testing",
+        "disabled": false,
+        "info": "Injection Node to Test connection to Database\nand\nMQTT Node to Test the full flow from MQTT to the Database and view the Data in Grafana.\nFor that use the provided python script"
+    },
+    {
+        "id": "3cc11d24.ff01a2",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
+        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
+        "x": 350,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "9b31da8b7c692acd",
+        "type": "mysql",
+        "z": "f6f2187d.f17ca8",
+        "mydb": "011a6e137d59070e",
+        "name": "",
+        "x": 670,
+        "y": 500,
+        "wires": [
+            [
+                "3098184fd9e49ffb"
+            ]
+        ]
+    },
+    {
+        "id": "fa6120b79742c0ac",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "Insert Into Database GPS",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "INSERT INTO test_gps_data (latitude, longitude, rssi) VALUES ('52.13', '9.90', -130);",
+        "x": 410,
+        "y": 500,
+        "wires": [
+            [
+                "9b31da8b7c692acd"
+            ]
+        ]
+    },
+    {
+        "id": "3098184fd9e49ffb",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "607bb7f7fc9e9fc4",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "GPS/Testdata",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "bb9bab88e94828e4",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 700,
+        "wires": [
+            [
+                "611c545c54bd7fed",
+                "6abb9271b0b786cb"
+            ]
+        ]
+    },
+    {
+        "id": "611c545c54bd7fed",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Convert MQTT message to SQL",
+        "func": "var str1 = \"INSERT INTO test_gps_data (latitude, longitude, rssi) VALUES (\"\nvar str2 = msg.payload;\nvar str3 = \");\"\nvar str = str1.concat(str2, str3);\nmsg.payload = undefined;\nmsg.topic = str;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 700,
+        "wires": [
+            [
+                "d9fc500a160cfdb0"
+            ]
+        ]
+    },
+    {
+        "id": "d9fc500a160cfdb0",
+        "type": "mysql",
+        "z": "f6f2187d.f17ca8",
+        "mydb": "011a6e137d59070e",
+        "name": "",
+        "x": 710,
+        "y": 700,
+        "wires": [
+            [
+                "0d8ed195e65199da"
+            ]
+        ]
+    },
+    {
+        "id": "0d8ed195e65199da",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "6abb9271b0b786cb",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "c9d78c6594599e6c",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "Change the IP adress according to your Sever!",
+        "info": "",
+        "x": 260,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "20521d185268653b",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "Add User and Password",
+        "info": "",
+        "x": 670,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "011a6e137d59070e",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "teamprojekt_mysql",
+        "port": "3306",
+        "db": "GPS",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "bb9bab88e94828e4",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.178.63",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    }
+]

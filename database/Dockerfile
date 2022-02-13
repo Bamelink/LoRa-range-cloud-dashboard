@@ -1,0 +1,8 @@
+FROM mysql
+
+ENV MYSQL_ROOT_PASSWORD j6VfJuThHtTFgdYYZgUs  
+ENV MYSQL_DATABASE GPS  
+ENV MYSQL_USER grafana  
+ENV MYSQL_PASSWORD kRXb4cJBU8WTgDGvTXDp
+
+ADD setup.sql /docker-entrypoint-initdb.d
