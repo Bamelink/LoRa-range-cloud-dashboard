@@ -14,10 +14,10 @@ services:
   mqtt:
     image: eclipse-mosquitto
     container_name: mqtt
-    network_mode: host
     restart: unless-stopped
+    network_mode: host
     volumes:
-      - mqtt:/mosquitto/config
+      - ./mqtt:/mosquitto/config
       - mqtt:/mosquitto/data
       - mqtt:/mosquitto/log
     ports:
