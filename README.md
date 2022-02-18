@@ -44,8 +44,9 @@ For the following, change my ip address 192.168.178.63 with the one of your spec
 Grafana can be reached by http://192.168.178.63:3000, the default login is "admin" "admin". After the first login you will be forced to create a new password. This will then be stored until you delete your volume. Furthermore the database should already be configured. When going to the "Explore" Tab in Grafana, you should be able to see automaticly generated test data.
 
 To further test this stack, you can open NodeRed on http://192.168.178.63:1880.
-There should be a Flow named "Testing". The upper one just takes Data and inserts this into the Database as a Test. If everything wored, this data should be also visible in Grafana.\
-The lower one is to fully test the stack which also includes MQTT. But for this to work, you have to manually configure this node by setting the IP adress of your sever, since here the Docker built-in DNS doesnt seem to work.
+There should be a Flow named "Testing". The upper one just takes Data and inserts this into the Database as a Test.\
+ To get access to the Database, you have to insert the username and password by editing the node. You can finde these in the Dockerfile under database. If nothing changed, the default username is "grafana" and password is "kRXb4cJBU8WTgDGvTXDp". If everything wored, this data should be also visible in Grafana.\
+The lower one is to fully test the stack which also includes MQTT
 
 The python script can be used to test this, but you will need to have python installed on your system executing this script and also install the MQTT and numpy package by running
 ```bash

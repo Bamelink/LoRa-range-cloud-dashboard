@@ -158,16 +158,6 @@
         "wires": []
     },
     {
-        "id": "c9d78c6594599e6c",
-        "type": "comment",
-        "z": "f6f2187d.f17ca8",
-        "name": "Change the IP adress according to your Sever!",
-        "info": "",
-        "x": 260,
-        "y": 660,
-        "wires": []
-    },
-    {
         "id": "20521d185268653b",
         "type": "comment",
         "z": "f6f2187d.f17ca8",
@@ -191,7 +181,7 @@
         "id": "bb9bab88e94828e4",
         "type": "mqtt-broker",
         "name": "",
-        "broker": "192.168.178.63",
+        "broker": "teamprojekt_mqtt",
         "port": "1883",
         "clientid": "",
         "autoConnect": true,

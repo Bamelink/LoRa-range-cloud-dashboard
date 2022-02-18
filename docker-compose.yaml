@@ -17,7 +17,7 @@ services:
     image: eclipse-mosquitto
     container_name: teamprojekt_mqtt
     restart: unless-stopped
-    network_mode: host
+    #network_mode: host
     volumes:
       - ./mqtt:/mosquitto/config
       - mqtt:/mosquitto/data
@@ -46,6 +46,9 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     restart: unless-stopped
+    environment:
+      - "GF_PATHS_CONFIG=/etc/grafana/provisioning/config/grafana.ini"
+      - "GF_INSTALL_PLUGINS=https://github.com/tkurki/grafana-track-map/archive/master.zip;plugins"
     volumes:
       - grafana:/var/lib/grafana
       - ./provisioning:/etc/grafana/provisioning

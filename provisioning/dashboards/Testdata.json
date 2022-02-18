@@ -101,7 +101,7 @@
                   "field": "rssi",
                   "fixed": "dark-green"
                 },
-                "opacity": 0.2,
+                "opacity": 0.8,
                 "rotation": {
                   "fixed": 0,
                   "max": 360,
