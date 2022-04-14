@@ -1,0 +1,99 @@
+version: '3'
+
+services:
+  traefik:
+    image: "traefik:v2.5"
+    container_name: "traefik"
+    ports:
+      - "80:80"
+      - "443:443"
+      # (Optional) Expose Dashboard
+      - "8080:8080"  # Don't do this in production!
+    volumes:
+      - ./traefik/config:/etc/traefik
+      - traefik-ssl-certs:/ssl-certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  nodered:
+    container_name: teamprojekt_nodered
+    build: ./nodeRed
+    restart: unless-stopped
+    environment:
+      - TZ="Europe/Berlin"
+    volumes:
+      - nodered:/data
+    #ports:
+    #  - "1880:1880"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nodered.entrypoints=web, websecure"
+      - "traefik.http.routers.nodered.rule=Host(`nodered.jbreuer.duckdns.org`)"
+      - "traefik.http.routers.nodered.tls=true"
+      - "traefik.http.routers.nodered.tls.certresolver=production"
+  
+  mqtt:
+    image: eclipse-mosquitto
+    container_name: teamprojekt_mqtt
+    restart: unless-stopped
+    #network_mode: host
+    volumes:
+      - ./mqtt:/mosquitto/config
+      - mqtt:/mosquitto/data
+      - mqtt:/mosquitto/log
+    #ports:
+    #  - "1883:1883"
+    #  - "9001:9001"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mqtt.entrypoints=web, websecure"
+      - "traefik.http.routers.mqtt.rule=Host(`mqtt.jbreuer.duckdns.org`)"
+      - "traefik.http.routers.mqtt.tls=true"
+      - "traefik.http.routers.mqtt.tls.certresolver=production"
+
+  mysql:
+    container_name: teamprojekt_mysql
+    build: ./database
+    restart: unless-stopped
+    environment:
+      - TZ="Europe/Berlin"
+    volumes:
+      - mysql:/var/lib/mysql
+      
+  adminer:
+    image: adminer
+    container_name: teamprojekt_mysql_adminer
+    restart: unless-stopped
+    #ports:
+    #  - "8080:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adminer.entrypoints=web, websecure"
+      - "traefik.http.routers.adminer.rule=Host(`adminer.jbreuer.duckdns.org`)"
+      - "traefik.http.routers.adminer.tls=true"
+      - "traefik.http.routers.adminer.tls.certresolver=production"
+  
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+      - "GF_PATHS_CONFIG=/etc/grafana/provisioning/config/grafana.ini"
+      - "GF_INSTALL_PLUGINS=https://github.com/tkurki/grafana-track-map/archive/master.zip;plugins"
+    volumes:
+      - grafana:/var/lib/grafana
+      - ./provisioning:/etc/grafana/provisioning
+    #ports:
+    #  - "3000:3000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.entrypoints=web, websecure"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.jbreuer.duckdns.org`)"
+      - "traefik.http.routers.grafana.tls=true"
+      - "traefik.http.routers.grafana.tls.certresolver=production"
+      
+volumes:
+  nodered:
+  mqtt:
+  mysql:
+  grafana:
+  traefik-ssl-certs:
