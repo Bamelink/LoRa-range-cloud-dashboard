@@ -1,19 +1,6 @@
 version: '3'
 
 services:
-  traefik:
-    image: "traefik:v2.5"
-    container_name: "traefik"
-    ports:
-      - "80:80"
-      - "443:443"
-      # (Optional) Expose Dashboard
-      - "8080:8080"  # Don't do this in production!
-    volumes:
-      - ./traefik/config:/etc/traefik
-      - traefik-ssl-certs:/ssl-certs
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-
   nodered:
     container_name: teamprojekt_nodered
     build: ./nodeRed
@@ -40,15 +27,23 @@ services:
       - ./mqtt:/mosquitto/config
       - mqtt:/mosquitto/data
       - mqtt:/mosquitto/log
-    #ports:
-    #  - "1883:1883"
-    #  - "9001:9001"
+    expose:
+      - "1883"
+      - "9001"
+      - "8883"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mqtt.entrypoints=web, websecure"
-      - "traefik.http.routers.mqtt.rule=Host(`mqtt.jbreuer.duckdns.org`)"
-      - "traefik.http.routers.mqtt.tls=true"
-      - "traefik.http.routers.mqtt.tls.certresolver=production"
+      # Websocket
+      - "traefik.http.routers.mqtt_websocket.rule=Host(`mqtt-websocket.jbreuer.duckdns.org`)"
+      - "traefik.http.routers.mqtt_websocket.entrypoints=web, websecure"
+      - "traefik.http.routers.mqtt_websocket.tls=true"
+      - "traefik.http.routers.mqtt_websocket.tls.certresolver=production"
+      - "traefik.http.services.mqtt_websocket.loadbalancer.server.port=9001"
+      # Secure connection
+      - "traefik.tcp.services.mqtt.loadbalancer.server.port=1883"
+      - "traefik.tcp.routers.mqtt.entrypoints=mqtt"
+      - "traefik.tcp.routers.mqtt.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mqtt.service=mqtt"
 
   mysql:
     container_name: teamprojekt_mysql
@@ -64,7 +59,7 @@ services:
     container_name: teamprojekt_mysql_adminer
     restart: unless-stopped
     #ports:
-    #  - "8080:8080"
+    #  - "8081:8080"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.adminer.entrypoints=web, websecure"
@@ -96,4 +91,3 @@ volumes:
   mqtt:
   mysql:
   grafana:
-  traefik-ssl-certs:

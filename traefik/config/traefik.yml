@@ -37,6 +37,12 @@ entryPoints:
   websecure:
     address: :443
 
+  mqtt:
+    address: :1883
+  
+  mqtt_websocket:
+    address: :9001
+
 # Configure your CertificateResolver here...
 # ---
 certificatesResolvers:
