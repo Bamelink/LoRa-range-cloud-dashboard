@@ -14,7 +14,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nodered.entrypoints=web, websecure"
-      - "traefik.http.routers.nodered.rule=Host(`nodered.jbreuer.duckdns.org`)"
+      - "traefik.http.routers.nodered.rule=Host(`nodered.yourSubdomain`)"
       - "traefik.http.routers.nodered.tls=true"
       - "traefik.http.routers.nodered.tls.certresolver=production"
   
@@ -34,7 +34,7 @@ services:
     labels:
       - "traefik.enable=true"
       # Websocket
-      - "traefik.http.routers.mqtt_websocket.rule=Host(`mqtt-websocket.jbreuer.duckdns.org`)"
+      - "traefik.http.routers.mqtt_websocket.rule=Host(`mqtt-websocket.yourSubdomain`)"
       - "traefik.http.routers.mqtt_websocket.entrypoints=web, websecure"
       - "traefik.http.routers.mqtt_websocket.tls=true"
       - "traefik.http.routers.mqtt_websocket.tls.certresolver=production"
@@ -63,7 +63,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.adminer.entrypoints=web, websecure"
-      - "traefik.http.routers.adminer.rule=Host(`adminer.jbreuer.duckdns.org`)"
+      - "traefik.http.routers.adminer.rule=Host(`adminer.yourSubdomain`)"
       - "traefik.http.routers.adminer.tls=true"
       - "traefik.http.routers.adminer.tls.certresolver=production"
   
@@ -82,7 +82,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.grafana.entrypoints=web, websecure"
-      - "traefik.http.routers.grafana.rule=Host(`grafana.jbreuer.duckdns.org`)"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.yourSubdomain`)"
       - "traefik.http.routers.grafana.tls=true"
       - "traefik.http.routers.grafana.tls.certresolver=production"
       
