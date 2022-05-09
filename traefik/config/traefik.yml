@@ -48,14 +48,14 @@ entryPoints:
 certificatesResolvers:
   staging:
     acme:
-      email: j.breuer@ostfalia.de
+      email: your@email.adress
       storage: /etc/traefik/certs/acme.json
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
   production:
     acme:
-      email: j.breuer@ostfalia.de
+      email: your@email.adress
       storage: /etc/traefik/certs/acme.json
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
