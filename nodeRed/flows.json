@@ -87,8 +87,8 @@
         "y": 700,
         "wires": [
             [
-                "611c545c54bd7fed",
-                "6abb9271b0b786cb"
+                "6abb9271b0b786cb",
+                "50ed545f077a0fa5"
             ]
         ]
     },
@@ -97,13 +97,13 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "Convert MQTT message to SQL",
-        "func": "var str1 = \"INSERT INTO test_gps_data (latitude, longitude, rssi) VALUES (\"\nvar str2 = msg.payload;\nvar str3 = \");\"\nvar str = str1.concat(str2, str3);\nmsg.payload = undefined;\nmsg.topic = str;\nreturn msg;",
+        "func": "var str1 = \"INSERT INTO test_gps_data (latitude, longitude, rssi) VALUES (\"\nvar str2 = msg.payload.lat;\nvar str3 = \",\";\nvar str4 = msg.payload.lon;\nvar str5 = \",\";\nvar str6 = msg.topic;\nvar str7 = \");\"\nvar str = str1.concat(str2, str3, str4, str5, str6, str7);\nmsg.payload = undefined;\nmsg.topic = str;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
+        "x": 830,
         "y": 700,
         "wires": [
             [
@@ -117,7 +117,7 @@
         "z": "f6f2187d.f17ca8",
         "mydb": "011a6e137d59070e",
         "name": "",
-        "x": 710,
+        "x": 1050,
         "y": 700,
         "wires": [
             [
@@ -137,7 +137,7 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 870,
+        "x": 1210,
         "y": 700,
         "wires": []
     },
@@ -154,7 +154,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 450,
-        "y": 740,
+        "y": 760,
         "wires": []
     },
     {
@@ -166,6 +166,541 @@
         "x": 670,
         "y": 460,
         "wires": []
+    },
+    {
+        "id": "292be056230d0e97",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "RFM95/SF7",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "bb9bab88e94828e4",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 820,
+        "wires": [
+            [
+                "8446a5ae3bd73baa",
+                "0c9209f1851e2163"
+            ]
+        ]
+    },
+    {
+        "id": "8a462860f95489f2",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Convert MQTT message to SQL",
+        "func": "var str1 = \"INSERT INTO RFM95_868_SF7 (latitude, longitude, rssi) VALUES (\"\nvar str2 = msg.payload.lat;\nvar str3 = \",\";\nvar str4 = msg.payload.lon;\nvar str5 = \",\";\nvar str6 = msg.topic;\nvar str7 = \");\"\nvar str = str1.concat(str2, str3, str4, str5, str6, str7);\nmsg.payload = undefined;\nmsg.topic = str;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 820,
+        "wires": [
+            [
+                "7ff0294c10e881fc"
+            ]
+        ]
+    },
+    {
+        "id": "7ff0294c10e881fc",
+        "type": "mysql",
+        "z": "f6f2187d.f17ca8",
+        "mydb": "011a6e137d59070e",
+        "name": "",
+        "x": 1050,
+        "y": 820,
+        "wires": [
+            [
+                "691082f5073cf273"
+            ]
+        ]
+    },
+    {
+        "id": "691082f5073cf273",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1210,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "8446a5ae3bd73baa",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "09dab20ae87b11c7",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "RFM95/SF9",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "bb9bab88e94828e4",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 920,
+        "wires": [
+            [
+                "4d1ee5f6cabb0a0a",
+                "49c5c415e770ecd5"
+            ]
+        ]
+    },
+    {
+        "id": "08d7735658dec07b",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Convert MQTT message to SQL",
+        "func": "var str1 = \"INSERT INTO RFM95_868_SF9 (latitude, longitude, rssi) VALUES (\"\nvar str2 = msg.payload.lat;\nvar str3 = \",\";\nvar str4 = msg.payload.lon;\nvar str5 = \",\";\nvar str6 = msg.topic;\nvar str7 = \");\"\nvar str = str1.concat(str2, str3, str4, str5, str6, str7);\nmsg.payload = undefined;\nmsg.topic = str;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 920,
+        "wires": [
+            [
+                "dd1b838a55fcbe58"
+            ]
+        ]
+    },
+    {
+        "id": "dd1b838a55fcbe58",
+        "type": "mysql",
+        "z": "f6f2187d.f17ca8",
+        "mydb": "011a6e137d59070e",
+        "name": "",
+        "x": 1050,
+        "y": 920,
+        "wires": [
+            [
+                "d32be417dc8934ef"
+            ]
+        ]
+    },
+    {
+        "id": "d32be417dc8934ef",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1210,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "4d1ee5f6cabb0a0a",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "7244eb2e40844465",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "WL55/SF7",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "bb9bab88e94828e4",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 1020,
+        "wires": [
+            [
+                "19440a33f98d5b92",
+                "9be45a5bbb430e15"
+            ]
+        ]
+    },
+    {
+        "id": "271e18d4ddbbee27",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Convert MQTT message to SQL",
+        "func": "var str1 = \"INSERT INTO WL55JC_434_SF7 (latitude, longitude, rssi) VALUES (\"\nvar str2 = msg.payload.lat;\nvar str3 = \",\";\nvar str4 = msg.payload.lon;\nvar str5 = \",\";\nvar str6 = msg.topic;\nvar str7 = \");\"\nvar str = str1.concat(str2, str3, str4, str5, str6, str7);\nmsg.payload = undefined;\nmsg.topic = str;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 1020,
+        "wires": [
+            [
+                "91a33e78d24112da"
+            ]
+        ]
+    },
+    {
+        "id": "91a33e78d24112da",
+        "type": "mysql",
+        "z": "f6f2187d.f17ca8",
+        "mydb": "011a6e137d59070e",
+        "name": "",
+        "x": 1050,
+        "y": 1020,
+        "wires": [
+            [
+                "0f378f523784d88e"
+            ]
+        ]
+    },
+    {
+        "id": "0f378f523784d88e",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1210,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "19440a33f98d5b92",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "7938f57904cb7322",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "WL55/SF9",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "bb9bab88e94828e4",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 1120,
+        "wires": [
+            [
+                "849e38a901084817",
+                "9a51dfd2bf8beed7"
+            ]
+        ]
+    },
+    {
+        "id": "f375666a3593c438",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Convert MQTT message to SQL",
+        "func": "var str1 = \"INSERT INTO WL55JC_434_SF9 (latitude, longitude, rssi) VALUES (\"\nvar str2 = msg.payload.lat;\nvar str3 = \",\";\nvar str4 = msg.payload.lon;\nvar str5 = \",\";\nvar str6 = msg.topic;\nvar str7 = \");\"\nvar str = str1.concat(str2, str3, str4, str5, str6, str7);\nmsg.payload = undefined;\nmsg.topic = str;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 1120,
+        "wires": [
+            [
+                "4082d565c841583c"
+            ]
+        ]
+    },
+    {
+        "id": "4082d565c841583c",
+        "type": "mysql",
+        "z": "f6f2187d.f17ca8",
+        "mydb": "011a6e137d59070e",
+        "name": "",
+        "x": 1050,
+        "y": 1120,
+        "wires": [
+            [
+                "7b211174ed0776ad"
+            ]
+        ]
+    },
+    {
+        "id": "7b211174ed0776ad",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1210,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "849e38a901084817",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "fec7f137f72c70f5",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "Test/geohash",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "bb9bab88e94828e4",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 760,
+        "wires": [
+            [
+                "6abb9271b0b786cb",
+                "50ed545f077a0fa5"
+            ]
+        ]
+    },
+    {
+        "id": "50ed545f077a0fa5",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "let position = msg.payload.search(\",\");\nmsg.topic = msg.payload.substring(position + 2);\nmsg.payload = msg.payload.substring(0, position - 1);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 700,
+        "wires": [
+            [
+                "06e6b5eae4968395"
+            ]
+        ]
+    },
+    {
+        "id": "06e6b5eae4968395",
+        "type": "geohash",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "property": "payload",
+        "x": 600,
+        "y": 700,
+        "wires": [
+            [
+                "611c545c54bd7fed"
+            ]
+        ]
+    },
+    {
+        "id": "0c9209f1851e2163",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "let position = msg.payload.search(\",\");\nmsg.topic = msg.payload.substring(position + 2);\nmsg.payload = msg.payload.substring(0, position - 1);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 820,
+        "wires": [
+            [
+                "5b9ea213406cf572"
+            ]
+        ]
+    },
+    {
+        "id": "5b9ea213406cf572",
+        "type": "geohash",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "property": "payload",
+        "x": 600,
+        "y": 820,
+        "wires": [
+            [
+                "8a462860f95489f2"
+            ]
+        ]
+    },
+    {
+        "id": "49c5c415e770ecd5",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "let position = msg.payload.search(\",\");\nmsg.topic = msg.payload.substring(position + 2);\nmsg.payload = msg.payload.substring(0, position - 1);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 920,
+        "wires": [
+            [
+                "3989896a69fd3eae"
+            ]
+        ]
+    },
+    {
+        "id": "3989896a69fd3eae",
+        "type": "geohash",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "property": "payload",
+        "x": 600,
+        "y": 920,
+        "wires": [
+            [
+                "08d7735658dec07b"
+            ]
+        ]
+    },
+    {
+        "id": "9be45a5bbb430e15",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "let position = msg.payload.search(\",\");\nmsg.topic = msg.payload.substring(position + 2);\nmsg.payload = msg.payload.substring(0, position - 1);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 1020,
+        "wires": [
+            [
+                "c7fc18ac70c44e02"
+            ]
+        ]
+    },
+    {
+        "id": "c7fc18ac70c44e02",
+        "type": "geohash",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "property": "payload",
+        "x": 600,
+        "y": 1020,
+        "wires": [
+            [
+                "271e18d4ddbbee27"
+            ]
+        ]
+    },
+    {
+        "id": "9a51dfd2bf8beed7",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "let position = msg.payload.search(\",\");\nmsg.topic = msg.payload.substring(position + 2);\nmsg.payload = msg.payload.substring(0, position - 1);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 1120,
+        "wires": [
+            [
+                "b558691956934515"
+            ]
+        ]
+    },
+    {
+        "id": "b558691956934515",
+        "type": "geohash",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "property": "payload",
+        "x": 600,
+        "y": 1120,
+        "wires": [
+            [
+                "f375666a3593c438"
+            ]
+        ]
     },
     {
         "id": "011a6e137d59070e",
